@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.serializer;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import io.protostuff.LinkedBuffer;
 import io.protostuff.ProtostuffIOUtil;
 import io.protostuff.Schema;
 import io.protostuff.runtime.RuntimeSchema;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 public class ProtobuffSerializer implements Serializer {
 
-    private static Map<Class<?>, Schema<?>> cachedSchema = new ConcurrentHashMap<Class<?>, Schema<?>>();
+    private static Map<Class<?>, Schema<?>> cachedSchema = new ConcurrentHashMap<>();
 
     @SuppressWarnings("unchecked")
     @Override

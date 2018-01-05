@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.spring.factory;
 
 import java.net.InetSocketAddress;
@@ -24,7 +23,10 @@ import org.springframework.beans.factory.config.AbstractFactoryBean;
 
 import com.dinstone.jrpc.api.Server;
 import com.dinstone.jrpc.api.ServerBuilder;
+import com.dinstone.jrpc.endpoint.EndpointConfig;
+import com.dinstone.jrpc.registry.RegistryConfig;
 import com.dinstone.jrpc.transport.NetworkAddressUtil;
+import com.dinstone.jrpc.transport.TransportConfig;
 
 public class ServerFactoryBean extends AbstractFactoryBean<Server> {
 
@@ -88,20 +90,22 @@ public class ServerFactoryBean extends AbstractFactoryBean<Server> {
         ServerBuilder builder = new ServerBuilder();
 
         // setting transport config
-        builder.transportConfig().setSchema(transportBean.getSchema());
-        builder.transportConfig().setProperties(transportBean.getProperties());
+        TransportConfig transportConfig = new TransportConfig();
+        transportConfig.setSchema(transportBean.getSchema());
+        transportConfig.setProperties(transportBean.getProperties());
+        builder.transportConfig(transportConfig);
 
         // setting registry config
         if (registryBean.getSchema() != null && !registryBean.getSchema().isEmpty()) {
-            builder.registryConfig().setSchema(registryBean.getSchema());
-            builder.registryConfig().setProperties(registryBean.getProperties());
+            RegistryConfig config = new RegistryConfig();
+            config.setSchema(registryBean.getSchema()).setProperties(registryBean.getProperties());
+            builder.registryConfig(config);
         }
 
         // setting endpoint config
-        builder.endpointConfig().setEndpointId(id);
-        builder.endpointConfig().setEndpointName(name);
+        EndpointConfig endpointConfig = new EndpointConfig().setEndpointId(id).setEndpointName(name);
 
-        return builder.bind(address).build().start();
+        return builder.endpointConfig(endpointConfig).bind(address).build().start();
     }
 
     protected InetSocketAddress getProviderAddress(String address) {

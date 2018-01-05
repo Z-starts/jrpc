@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.api;
 
 import java.net.InetSocketAddress;
@@ -32,7 +31,7 @@ public class ClientBuilder {
 
     private TransportConfig transportConfig = new TransportConfig();
 
-    private List<InetSocketAddress> serviceAddresses = new ArrayList<InetSocketAddress>();
+    private List<InetSocketAddress> serviceAddresses = new ArrayList<>();
 
     public ClientBuilder bind(String addresses) {
         if (addresses == null || addresses.length() == 0) {
@@ -63,16 +62,22 @@ public class ClientBuilder {
         return new Client(endpointConfig, registryConfig, transportConfig, serviceAddresses);
     }
 
-    public EndpointConfig endpointConfig() {
-        return endpointConfig;
+    public ClientBuilder endpointConfig(EndpointConfig endpointConfig) {
+        this.endpointConfig.mergeConfiguration(endpointConfig);
+
+        return this;
     }
 
-    public RegistryConfig registryConfig() {
-        return registryConfig;
+    public ClientBuilder registryConfig(RegistryConfig registryConfig) {
+        this.registryConfig.mergeConfiguration(registryConfig);
+
+        return this;
     }
 
-    public TransportConfig transportConfig() {
-        return transportConfig;
+    public ClientBuilder transportConfig(TransportConfig transportConfig) {
+        this.transportConfig.mergeConfiguration(transportConfig);
+
+        return this;
     }
 
 }

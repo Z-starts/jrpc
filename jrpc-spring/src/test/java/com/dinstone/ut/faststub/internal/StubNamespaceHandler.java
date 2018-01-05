@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,16 +27,17 @@ import com.dinstone.ut.faststub.NullFactoryBean;
 
 /**
  * @author dinstone
- *
  */
 public class StubNamespaceHandler extends NamespaceHandlerSupport {
 
+    @Override
     public void init() {
         registerBeanDefinitionParser("null", new NullBeanDefinitionParser());
         registerBeanDefinitionParser("date", new DateBeanDefinitionParser());
     }
 
     private static class DateBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
+
         @Override
         protected Class<?> getBeanClass(Element element) {
             return DateFactoryBean.class;
@@ -59,6 +60,7 @@ public class StubNamespaceHandler extends NamespaceHandlerSupport {
     }
 
     private static class NullBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
+
         @Override
         protected Class<?> getBeanClass(Element element) {
             return NullFactoryBean.class;

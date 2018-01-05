@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.transport.netty4;
-
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import io.netty.util.concurrent.GenericFutureListener;
 
 import java.net.InetSocketAddress;
 import java.util.Map;
@@ -31,6 +26,10 @@ import com.dinstone.jrpc.serializer.SerializeType;
 import com.dinstone.jrpc.transport.Connection;
 import com.dinstone.jrpc.transport.ResultFuture;
 import com.dinstone.jrpc.transport.TransportConfig;
+
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.util.concurrent.GenericFutureListener;
 
 public class NettyConnection implements Connection {
 
@@ -59,6 +58,7 @@ public class NettyConnection implements Connection {
         }
     }
 
+    @Override
     public ResultFuture call(Call call) {
         final int id = ID_GENERATOR.incrementAndGet();
         Map<Integer, ResultFuture> futureMap = SessionUtil.getResultFutureMap(ioSession);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.api;
 
 import java.net.InetSocketAddress;
@@ -38,18 +37,6 @@ public class ServerBuilder {
     private TransportConfig transportConfig = new TransportConfig();
 
     private InetSocketAddress serviceAddress;
-
-    public EndpointConfig endpointConfig() {
-        return endpointConfig;
-    }
-
-    public RegistryConfig registryConfig() {
-        return registryConfig;
-    }
-
-    public TransportConfig transportConfig() {
-        return transportConfig;
-    }
 
     public Server build() {
         return new Server(endpointConfig, registryConfig, transportConfig, serviceAddress);
@@ -79,6 +66,28 @@ public class ServerBuilder {
         }
 
         return bind(socketAddress);
+    }
+
+    public ServerBuilder endpointConfig(EndpointConfig endpointConfig) {
+        this.endpointConfig.mergeConfiguration(endpointConfig);
+
+        return this;
+    }
+
+    public ServerBuilder registryConfig(RegistryConfig registryConfig) {
+        this.registryConfig.mergeConfiguration(registryConfig);
+
+        return this;
+    }
+
+    public ServerBuilder transportConfig(TransportConfig transportConfig) {
+        this.transportConfig.mergeConfiguration(transportConfig);
+
+        return this;
+    }
+
+    public void setServiceAddress(InetSocketAddress serviceAddress) {
+        this.serviceAddress = serviceAddress;
     }
 
     private InetSocketAddress parseServiceAddress(String address) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,14 @@
  */
 package com.dinstone.jrpc.transport.netty5;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.MessageToByteEncoder;
-
 import java.io.Serializable;
 
 import com.dinstone.jrpc.protocol.Message;
 import com.dinstone.jrpc.protocol.MessageCodec;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.MessageToByteEncoder;
 
 public class TransportProtocolEncoder extends MessageToByteEncoder<Message<? extends Serializable>> {
 
@@ -33,7 +33,7 @@ public class TransportProtocolEncoder extends MessageToByteEncoder<Message<? ext
 
     /**
      * the maxObjectSize to get
-     * 
+     *
      * @return the maxObjectSize
      * @see TransportProtocolEncoder#maxObjectSize
      */
@@ -43,7 +43,7 @@ public class TransportProtocolEncoder extends MessageToByteEncoder<Message<? ext
 
     /**
      * the maxObjectSize to set
-     * 
+     *
      * @param maxObjectSize
      * @see TransportProtocolEncoder#maxObjectSize
      */
@@ -65,8 +65,8 @@ public class TransportProtocolEncoder extends MessageToByteEncoder<Message<? ext
     private void writeFrame(ByteBuf out, byte[] rpcBytes) {
         int objectSize = rpcBytes.length;
         if (objectSize > maxObjectSize) {
-            throw new IllegalArgumentException("The encoded object is too big: " + objectSize + " (> " + maxObjectSize
-                    + ')');
+            throw new IllegalArgumentException(
+                "The encoded object is too big: " + objectSize + " (> " + maxObjectSize + ')');
         }
 
         // FrameLen = PrefixLen + RpcObjectSize

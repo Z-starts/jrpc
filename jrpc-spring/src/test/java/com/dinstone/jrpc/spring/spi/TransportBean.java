@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.dinstone.jrpc.spring.factory;
+package com.dinstone.jrpc.spring.spi;
 
+import com.dinstone.jrpc.SchemaConfig;
 import com.dinstone.jrpc.transport.TransportConfig;
 
 public class TransportBean {
 
-    private static final String DEFAULT_TRANSPORT = "mina";
+    private static final String DEFAULT_TRANSPORT = "netty";
 
     private String type = DEFAULT_TRANSPORT;
 
@@ -60,7 +61,7 @@ public class TransportBean {
         return config;
     }
 
-    public void setConfig(TransportConfig config) {
+    public void setConfig(SchemaConfig<?> config) {
         if (config != null) {
             this.config = new TransportConfig(config);
         }

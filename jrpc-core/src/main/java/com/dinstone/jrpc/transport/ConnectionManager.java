@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.transport;
 
 import java.net.InetSocketAddress;
@@ -38,6 +37,15 @@ public class ConnectionManager {
 
         SchemaFactoryLoader<ConnectionFactory> cfLoader = SchemaFactoryLoader.getInstance(ConnectionFactory.class);
         this.connectionFactory = cfLoader.getSchemaFactory(transportConfig.getSchema());
+    }
+
+    public ConnectionManager(TransportConfig transportConfig, ConnectionFactory connectionFactory) {
+        if (transportConfig == null) {
+            throw new IllegalArgumentException("transportConfig is null");
+        }
+        this.transportConfig = transportConfig;
+
+        this.connectionFactory = connectionFactory;
     }
 
     public Connection getConnection(InetSocketAddress socketAddress) {

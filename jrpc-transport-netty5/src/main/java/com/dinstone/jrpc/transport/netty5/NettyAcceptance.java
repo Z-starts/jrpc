@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.transport.netty5;
-
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerAdapter;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.timeout.IdleState;
-import io.netty.handler.timeout.IdleStateEvent;
-import io.netty.handler.timeout.IdleStateHandler;
-import io.netty.util.AttributeKey;
-import io.netty.util.concurrent.DefaultExecutorServiceFactory;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.ConcurrentHashMap;
@@ -52,6 +35,22 @@ import com.dinstone.jrpc.transport.Acceptance;
 import com.dinstone.jrpc.transport.NetworkAddressUtil;
 import com.dinstone.jrpc.transport.TransportConfig;
 
+import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerAdapter;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.timeout.IdleState;
+import io.netty.handler.timeout.IdleStateEvent;
+import io.netty.handler.timeout.IdleStateHandler;
+import io.netty.util.AttributeKey;
+import io.netty.util.concurrent.DefaultExecutorServiceFactory;
+
 public class NettyAcceptance extends AbstractAcceptance {
 
     private static final Logger LOG = LoggerFactory.getLogger(NettyAcceptance.class);
@@ -61,24 +60,22 @@ public class NettyAcceptance extends AbstractAcceptance {
 
     private final ConcurrentMap<String, Channel> connectionMap = new ConcurrentHashMap<>();
 
-    private TransportConfig transportConfig;
-
     private EventLoopGroup bossGroup;
 
     private EventLoopGroup workGroup;
 
     private ExecutorService executorService;
 
-    public NettyAcceptance(TransportConfig transportConfig, ImplementBinding implementBinding) {
-        super(implementBinding);
-        this.transportConfig = transportConfig;
+    public NettyAcceptance(TransportConfig transportConfig, ImplementBinding implementBinding,
+            InetSocketAddress serviceAddress) {
+        super(transportConfig, implementBinding, serviceAddress);
     }
 
     @Override
     public Acceptance bind() {
         bossGroup = new NioEventLoopGroup(1, new DefaultExecutorServiceFactory("N5A-Boss"));
-        workGroup = new NioEventLoopGroup(transportConfig.getNioProcessorCount(), new DefaultExecutorServiceFactory(
-            "N5A-Work"));
+        workGroup = new NioEventLoopGroup(transportConfig.getNioProcessorCount(),
+            new DefaultExecutorServiceFactory("N5A-Work"));
 
         ServerBootstrap boot = new ServerBootstrap();
         boot.group(bossGroup, workGroup).channel(NioServerSocketChannel.class)
@@ -102,13 +99,12 @@ public class NettyAcceptance extends AbstractAcceptance {
         boot.childOption(ChannelOption.SO_RCVBUF, 16 * 1024).childOption(ChannelOption.SO_SNDBUF, 16 * 1024)
             .childOption(ChannelOption.TCP_NODELAY, true);
 
-        InetSocketAddress serviceAddress = implementBinding.getServiceAddress();
         try {
             boot.bind(serviceAddress).sync();
 
             int processorCount = transportConfig.getBusinessProcessorCount();
             if (processorCount > 0) {
-                NamedThreadFactory threadFactory = new NamedThreadFactory("Netty5-BusinssProcessor");
+                NamedThreadFactory threadFactory = new NamedThreadFactory("N5A-BusinssProcessor");
                 executorService = Executors.newFixedThreadPool(processorCount, threadFactory);
             }
         } catch (Exception e) {
@@ -158,7 +154,8 @@ public class NettyAcceptance extends AbstractAcceptance {
             int currentConnectioncount = connectionMap.size();
             if (currentConnectioncount >= maxConnectionCount) {
                 ctx.close();
-                LOG.warn("connection count is too big: limit={},current={}", maxConnectionCount, currentConnectioncount);
+                LOG.warn("connection count is too big: limit={},current={}", maxConnectionCount,
+                    currentConnectioncount);
             } else {
                 Channel channel = ctx.channel();
                 String addressLabel = NetworkAddressUtil.addressLabel(channel.remoteAddress(), channel.localAddress());

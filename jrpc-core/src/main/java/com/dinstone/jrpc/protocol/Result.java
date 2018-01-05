@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ import java.io.Serializable;
 
 /**
  * Method call results, RPC protocol payload part.
- * 
+ *
  * @author guojinfei
  * @version 1.0.0.2014-6-23
  */
@@ -50,16 +50,9 @@ public class Result implements Serializable {
         this.data = data;
     }
 
-    public Result(int code, String message, Object data) {
-        super();
-        this.code = code;
-        this.message = message;
-        this.data = data;
-    }
-
     /**
      * the code to get
-     * 
+     *
      * @return the code
      * @see Result#code
      */
@@ -69,7 +62,7 @@ public class Result implements Serializable {
 
     /**
      * the code to set
-     * 
+     *
      * @param code
      * @see Result#code
      */
@@ -79,7 +72,7 @@ public class Result implements Serializable {
 
     /**
      * the message to get
-     * 
+     *
      * @return the message
      * @see Result#message
      */
@@ -89,7 +82,7 @@ public class Result implements Serializable {
 
     /**
      * the message to set
-     * 
+     *
      * @param message
      * @see Result#message
      */
@@ -99,7 +92,7 @@ public class Result implements Serializable {
 
     /**
      * the data to get
-     * 
+     *
      * @return the data
      * @see Result#data
      */
@@ -109,7 +102,7 @@ public class Result implements Serializable {
 
     /**
      * the data to set
-     * 
+     *
      * @param data
      * @see Result#data
      */
@@ -119,7 +112,7 @@ public class Result implements Serializable {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override

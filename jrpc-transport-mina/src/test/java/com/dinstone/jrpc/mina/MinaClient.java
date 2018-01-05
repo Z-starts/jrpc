@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.mina;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.dinstone.jrpc.binding.DefaultReferenceBinding;
 import com.dinstone.jrpc.binding.ReferenceBinding;
 import com.dinstone.jrpc.endpoint.DefaultServiceImporter;
 import com.dinstone.jrpc.endpoint.EndpointConfig;
@@ -41,8 +41,9 @@ public class MinaClient {
 
     public MinaClient(final String host, final int port, TransportConfig config) {
         config.setSchema("mina");
-        referenceBinding = new DefaultReferenceBinding(new InetSocketAddress(host, port));
-        serviceImporter = new DefaultServiceImporter(new EndpointConfig(), config, referenceBinding);
+        List<InetSocketAddress> addresses = new ArrayList<>();
+        addresses.add(new InetSocketAddress(host, port));
+        serviceImporter = new DefaultServiceImporter(new EndpointConfig(), null, null);
     }
 
     public <T> T getService(Class<T> sic) {

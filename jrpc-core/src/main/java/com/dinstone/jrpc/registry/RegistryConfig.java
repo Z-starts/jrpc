@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,9 @@
 package com.dinstone.jrpc.registry;
 
 import com.dinstone.jrpc.Configuration;
+import com.dinstone.jrpc.SchemaConfig;
 
-public class RegistryConfig extends Configuration {
-
-    private String schema;
+public class RegistryConfig extends SchemaConfig<RegistryConfig> {
 
     public RegistryConfig() {
         super();
@@ -32,15 +31,6 @@ public class RegistryConfig extends Configuration {
 
     public RegistryConfig(String configLocation) {
         super(configLocation);
-    }
-
-    public String getSchema() {
-        return this.schema;
-    }
-
-    public RegistryConfig setSchema(String schema) {
-        this.schema = schema;
-        return this;
     }
 
 }

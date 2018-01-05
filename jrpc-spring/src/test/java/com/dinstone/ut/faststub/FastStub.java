@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,21 +18,19 @@ package com.dinstone.ut.faststub;
 import com.dinstone.ut.faststub.internal.ProxyFactory;
 
 /**
- * The stub factory to generate Stub instance.The stub type either Interface
- * type or Class type.
- * 
+ * The stub factory to generate Stub instance.The stub type either Interface type or Class type.
+ *
  * @author dinstone
- * 
  */
 public class FastStub {
 
     /**
      * Creating stub instance.
-     * 
+     *
      * @param <T>
-     *            stub type, Interface or non final Class
+     *        stub type, Interface or non final Class
      * @param toStub
-     *            required stub class
+     *        required stub class
      * @return stub instance
      */
     public static <T> T createStub(final Class<T> toStub) {
@@ -41,13 +39,13 @@ public class FastStub {
 
     /**
      * Creating stub instance, specify a custom method interceptor.
-     * 
+     *
      * @param <T>
-     *            stub type, Interface or non final Class
+     *        stub type, Interface or non final Class
      * @param toStub
-     *            required stub class
+     *        required stub class
      * @param interceptor
-     *            method interceptor to intercept the target method invocation
+     *        method interceptor to intercept the target method invocation
      * @return stub instance
      */
     public static <T> T createStub(final Class<T> toStub, MethodInterceptor interceptor) {

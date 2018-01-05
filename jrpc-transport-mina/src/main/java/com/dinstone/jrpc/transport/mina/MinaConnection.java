@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.transport.mina;
 
 import java.net.InetSocketAddress;
@@ -60,6 +59,7 @@ public class MinaConnection implements Connection {
         }
     }
 
+    @Override
     public ResultFuture call(Call call) {
         final int id = ID_GENERATOR.incrementAndGet();
         Map<Integer, ResultFuture> futureMap = SessionUtil.getResultFutureMap(ioSession);
@@ -69,6 +69,7 @@ public class MinaConnection implements Connection {
         WriteFuture wf = ioSession.write(new Request(id, serializeType, call));
         wf.addListener(new IoFutureListener<WriteFuture>() {
 
+            @Override
             public void operationComplete(WriteFuture future) {
                 if (!future.isWritten()) {
                     resultFuture.setResult(new Result(500, "can't write request"));
@@ -98,7 +99,7 @@ public class MinaConnection implements Connection {
 
     @Override
     public InetSocketAddress getRemoteAddress() {
-        return (InetSocketAddress) connector.getRemoteAddress();
+        return connector.getRemoteAddress();
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ public class ResultFuture {
     private List<ResultFutureListener> listeners;
 
     /**
-     * 
+     *
      */
     public ResultFuture() {
         super();
@@ -83,12 +83,7 @@ public class ResultFuture {
 
     private Object getValue() {
         if (result.getCode() != 200) {
-            Throwable fault = (Throwable) result.getData();
-            if (fault != null) {
-                throw new RpcException(result.getCode(), result.getMessage(), fault);
-            } else {
-                throw new RpcException(result.getCode(), result.getMessage());
-            }
+            throw new RpcException(result.getCode(), result.getMessage());
         } else {
             return result.getData();
         }
@@ -140,7 +135,7 @@ public class ResultFuture {
                 notifyNow = true;
             } else {
                 if (listeners == null) {
-                    listeners = new ArrayList<ResultFutureListener>(1);
+                    listeners = new ArrayList<>(1);
                 }
                 listeners.add(listener);
             }

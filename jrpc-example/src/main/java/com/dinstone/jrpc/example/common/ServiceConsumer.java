@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.example.common;
 
 import java.util.concurrent.CountDownLatch;
@@ -21,12 +20,13 @@ import java.util.concurrent.CountDownLatch;
 import com.dinstone.jrpc.api.Client;
 import com.dinstone.jrpc.api.ClientBuilder;
 import com.dinstone.jrpc.example.HelloService;
+import com.dinstone.jrpc.transport.TransportConfig;
 
 public class ServiceConsumer {
 
     public static void main(String[] args) throws Exception {
         ClientBuilder builder = new ClientBuilder().bind("localhost", 4444);
-        // builder.transportConfig().setSchema("netty5").setConnectPoolSize(2);
+        builder.transportConfig(new TransportConfig().setSchema("netty").setConnectPoolSize(2));
 
         Client client = builder.build();
         HelloService helloService = client.importService(HelloService.class);
@@ -96,7 +96,7 @@ public class ServiceConsumer {
 
                 /**
                  * {@inheritDoc}
-                 * 
+                 *
                  * @see java.lang.Thread#run()
                  */
                 @Override
@@ -116,7 +116,7 @@ public class ServiceConsumer {
                         }
 
                         // long et = System.currentTimeMillis() - st;
-                        // System.out.println(et + " ms, " + dataLength + " B : " + (loopCount * 1000 / et) + "  tps");
+                        // System.out.println(et + " ms, " + dataLength + " B : " + (loopCount * 1000 / et) + " tps");
                     } finally {
                         endLatch.countDown();
                     }

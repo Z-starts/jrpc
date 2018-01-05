@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.registry;
 
 /**
  * Service Registry
- * 
+ *
  * @author dinstone
  * @version 1.0.0
  */
@@ -26,7 +25,7 @@ public interface ServiceRegistry {
 
     /**
      * Register / Re-register a service instance
-     * 
+     *
      * @param service
      *        the service instance description
      * @throws Exception
@@ -36,7 +35,7 @@ public interface ServiceRegistry {
 
     /**
      * Unregister / Remove a service instance
-     * 
+     *
      * @param service
      *        the service instance description
      * @throws Exception

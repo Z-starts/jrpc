@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ public class ProxyFactory {
 
     @SuppressWarnings("unchecked")
     private <T> T cglibProxy(final Class<T> toStub, MethodInterceptor interceptor) {
-        final ProxyInvocationHandler pih = new ProxyInvocationHandler(toStub, interceptor);
+        new ProxyInvocationHandler(toStub, interceptor);
         // return (T) Enhancer.create(toStub, new InvocationHandler() {
         //
         // public Object invoke(Object o, Method method, Object[] objects) throws Throwable {

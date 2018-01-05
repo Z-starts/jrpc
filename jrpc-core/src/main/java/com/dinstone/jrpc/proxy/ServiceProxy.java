@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.proxy;
-
 
 public class ServiceProxy<T> {
 
@@ -27,28 +25,53 @@ public class ServiceProxy<T> {
 
     private T instance;
 
-    public ServiceProxy(Class<T> service, String group, int timeout, T instance) {
+    private T proxy;
+
+    public ServiceProxy(Class<T> service, String group, int timeout) {
         super();
         this.service = service;
         this.group = group;
         this.timeout = timeout;
-        this.instance = instance;
     }
 
     public Class<T> getService() {
         return service;
     }
 
+    public void setService(Class<T> service) {
+        this.service = service;
+    }
+
     public String getGroup() {
         return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 
     public int getTimeout() {
         return timeout;
     }
 
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
+    }
+
     public T getInstance() {
         return instance;
+    }
+
+    public void setInstance(T instance) {
+        this.instance = instance;
+    }
+
+    public T getProxy() {
+        return proxy;
+    }
+
+    public void setProxy(T proxy) {
+        this.proxy = proxy;
     }
 
 }

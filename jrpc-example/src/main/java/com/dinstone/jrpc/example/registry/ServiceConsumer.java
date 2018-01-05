@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,31 +16,30 @@
 
 package com.dinstone.jrpc.example.registry;
 
-import java.util.Properties;
-
 import com.dinstone.jrpc.api.Client;
 import com.dinstone.jrpc.api.ClientBuilder;
+import com.dinstone.jrpc.endpoint.EndpointConfig;
 import com.dinstone.jrpc.example.HelloService;
+import com.dinstone.jrpc.registry.RegistryConfig;
+import com.dinstone.jrpc.transport.TransportConfig;
 
 public class ServiceConsumer {
 
     public static void main(String[] args) {
-        ClientBuilder builder = new ClientBuilder();
-        builder.endpointConfig().setEndpointId("consumer-1").setEndpointName("example-registry-consumer");
+        EndpointConfig endpointConfig = new EndpointConfig().setEndpointId("consumer-1")
+            .setEndpointName("example-service-consumer");
 
-        Properties props = new Properties();
-        props.setProperty("zookeeper.node.list", "localhost:2181");
-        builder.registryConfig().setSchema("zookeeper").setProperties(props);
+        RegistryConfig registryConfig = new RegistryConfig().setSchema("zookeeper").addProperty("zookeeper.node.list",
+            "localhost:2181");
 
-        props = new Properties();
-        props.setProperty("rpc.handler.count", "2");
-        builder.transportConfig().setSchema("mina").setProperties(props);
+        TransportConfig transportConfig = new TransportConfig().setSchema("netty").setConnectPoolSize(2);
 
-        Client client = builder.build();
+        Client client = new ClientBuilder().endpointConfig(endpointConfig).registryConfig(registryConfig)
+            .transportConfig(transportConfig).build();
 
         try {
             HelloService helloService = client.importService(HelloService.class);
-            
+
             testHot(helloService);
 
             testSend1k(helloService);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.mina.client;
 
 import java.net.InetSocketAddress;
@@ -85,8 +84,8 @@ public class DefaultConnectionTest {
     public void testCall() {
         long st = System.currentTimeMillis();
 
-        ResultFuture cf = connect.call(new Call("com.dinstone.jrpc.cases.HelloService", "", 3000, "sayHello",
-            new Object[] { "dddd" }, null));
+        ResultFuture cf = connect.call(
+            new Call("com.dinstone.jrpc.cases.HelloService", "", 3000, "sayHello", new Object[] { "dddd" }, null));
         try {
             cf.get();
         } catch (InterruptedException e) {
@@ -110,6 +109,7 @@ public class DefaultConnectionTest {
         final Semaphore s = new Semaphore(0);
         ResultFutureListener listener = new ResultFutureListener() {
 
+            @Override
             public void complete(ResultFuture future) {
                 s.release();
             }
@@ -117,8 +117,8 @@ public class DefaultConnectionTest {
 
         int count = 10000;
         for (int i = 0; i < count; i++) {
-            ResultFuture f = connect.call(new Call("com.dinstone.jrpc.cases.HelloService", "", 3000, "sayHello",
-                new Object[] { name }, null));
+            ResultFuture f = connect.call(
+                new Call("com.dinstone.jrpc.cases.HelloService", "", 3000, "sayHello", new Object[] { name }, null));
             f.addListener(listener);
         }
 

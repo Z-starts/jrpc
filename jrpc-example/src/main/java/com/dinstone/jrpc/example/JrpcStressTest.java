@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.example;
 
 import java.util.concurrent.CountDownLatch;
@@ -22,6 +21,7 @@ import com.dinstone.jrpc.api.Client;
 import com.dinstone.jrpc.api.ClientBuilder;
 import com.dinstone.jrpc.api.Server;
 import com.dinstone.jrpc.api.ServerBuilder;
+import com.dinstone.jrpc.transport.TransportConfig;
 
 public class JrpcStressTest {
 
@@ -45,7 +45,7 @@ public class JrpcStressTest {
         }
 
         caseTemplate("mina", "mina", dataLength, parallel, conPollSize, nioSize, businessSize);
-        //caseTemplate("netty", "netty", dataLength, parallel, conPollSize, nioSize, businessSize);
+        // caseTemplate("netty", "netty", dataLength, parallel, conPollSize, nioSize, businessSize);
         // caseTemplate("mina", "mina");
         // caseTemplate(nettySchema, "mina");
         // caseTemplate("mina", nettySchema);
@@ -82,20 +82,20 @@ public class JrpcStressTest {
     }
 
     protected static Client createClient(String schema, int conPollSize) {
-        ClientBuilder builder = new ClientBuilder().bind("localhost", 4444);
-        builder.transportConfig().setSchema(schema).setConnectPoolSize(conPollSize);
+        TransportConfig transportConfig = new TransportConfig();
+        transportConfig.setSchema(schema).setConnectPoolSize(conPollSize);
 
-        Client client = builder.build();
+        ClientBuilder builder = new ClientBuilder().bind("localhost", 4444);
+        Client client = builder.transportConfig(transportConfig).build();
 
         return client;
     }
 
     protected static Server createServer(String schema, int nioSize, int businessSize) {
-        ServerBuilder builder = new ServerBuilder();
-        builder.transportConfig().setSchema(schema).setNioProcessorCount(nioSize)
+        TransportConfig config = new TransportConfig().setSchema(schema).setNioProcessorCount(nioSize)
             .setBusinessProcessorCount(businessSize);
-        Server server = builder.bind("localhost", 4444).build().start();
-        return server;
+
+        return new ServerBuilder().transportConfig(config).bind("localhost", 4444).build().start();
     }
 
     protected static void testHot(HelloService service) {
@@ -127,7 +127,7 @@ public class JrpcStressTest {
 
                 /**
                  * {@inheritDoc}
-                 * 
+                 *
                  * @see java.lang.Thread#run()
                  */
                 @Override
@@ -147,7 +147,7 @@ public class JrpcStressTest {
                         }
 
                         // long et = System.currentTimeMillis() - st;
-                        // System.out.println(et + " ms, " + dataLength + " B : " + (loopCount * 1000 / et) + "  tps");
+                        // System.out.println(et + " ms, " + dataLength + " B : " + (loopCount * 1000 / et) + " tps");
                     } finally {
                         endLatch.countDown();
                     }

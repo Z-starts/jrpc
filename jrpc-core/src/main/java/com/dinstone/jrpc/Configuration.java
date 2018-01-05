@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc;
 
 import java.io.IOException;
@@ -146,8 +145,8 @@ public class Configuration {
         return classLoader.getResourceAsStream(resource);
     }
 
-    private static Properties loadResource(InputStream in) throws IOException, ParserConfigurationException,
-            SAXException {
+    private static Properties loadResource(InputStream in)
+            throws IOException, ParserConfigurationException, SAXException {
         DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
         // ignore all comments inside the xml file
         builderFactory.setIgnoringComments(true);

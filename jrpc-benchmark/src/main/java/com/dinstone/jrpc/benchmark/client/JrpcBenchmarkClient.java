@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.benchmark.client;
 
 import java.lang.reflect.InvocationTargetException;
@@ -23,6 +22,7 @@ import java.util.concurrent.CyclicBarrier;
 import com.dinstone.jrpc.api.Client;
 import com.dinstone.jrpc.api.ClientBuilder;
 import com.dinstone.jrpc.benchmark.BenchmarkService;
+import com.dinstone.jrpc.transport.TransportConfig;
 
 public class JrpcBenchmarkClient extends AbstractBenchmarkClient {
 
@@ -36,10 +36,10 @@ public class JrpcBenchmarkClient extends AbstractBenchmarkClient {
 
     @Override
     protected void init() {
-        ClientBuilder builder = new ClientBuilder().bind("localhost", 4444);
-        builder.transportConfig().setSchema(caseConfig.transportSchema).setConnectPoolSize(caseConfig.connectPoolSize);
+        TransportConfig transportConfig = new TransportConfig();
+        transportConfig.setSchema(caseConfig.transportSchema).setConnectPoolSize(caseConfig.connectPoolSize);
 
-        client = builder.build();
+        client = new ClientBuilder().bind("localhost", 4444).transportConfig(transportConfig).build();
         benchmarkService = client.importService(BenchmarkService.class);
     }
 

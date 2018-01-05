@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.registry.zookeeper;
 
 import java.util.Map;
@@ -37,7 +36,7 @@ public class ZookeeperServiceRegistry implements ServiceRegistry {
 
     private static final Logger LOG = LoggerFactory.getLogger(ZookeeperServiceRegistry.class);
 
-    private final Map<String, ServiceDescription> services = new ConcurrentHashMap<String, ServiceDescription>();
+    private final Map<String, ServiceDescription> services = new ConcurrentHashMap<>();
 
     private final ServiceDescriptionSerializer serializer = new ServiceDescriptionSerializer();
 
@@ -97,7 +96,7 @@ public class ZookeeperServiceRegistry implements ServiceRegistry {
 
     @Override
     public void unregister(ServiceDescription service) throws Exception {
-        String path = pathForProvider(service.getServiceName(), service.getId());
+        String path = pathForProvider(service.getName(), service.getId());
         try {
             client.delete().forPath(path);
         } catch (KeeperException.NoNodeException ignore) {
@@ -106,10 +105,11 @@ public class ZookeeperServiceRegistry implements ServiceRegistry {
         services.remove(service.getId());
     }
 
+    @Override
     public void destroy() {
         if (connectionState == ConnectionState.CONNECTED) {
             for (ServiceDescription service : services.values()) {
-                String path = pathForProvider(service.getServiceName(), service.getId());
+                String path = pathForProvider(service.getName(), service.getId());
                 try {
                     client.delete().forPath(path);
                 } catch (Exception ignore) {
@@ -131,7 +131,7 @@ public class ZookeeperServiceRegistry implements ServiceRegistry {
 
     protected void internalRegister(ServiceDescription service) throws Exception {
         byte[] bytes = serializer.serialize(service);
-        String path = pathForProvider(service.getServiceName(), service.getId());
+        String path = pathForProvider(service.getName(), service.getId());
 
         final int MAX_TRIES = 2;
         boolean isDone = false;

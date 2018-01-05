@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.transport.netty5;
+
+import java.net.InetSocketAddress;
 
 import com.dinstone.jrpc.binding.ImplementBinding;
 import com.dinstone.jrpc.transport.Acceptance;
@@ -24,8 +25,9 @@ import com.dinstone.jrpc.transport.TransportConfig;
 public class NettyAcceptanceFactory implements AcceptanceFactory {
 
     @Override
-    public Acceptance create(TransportConfig transportConfig, ImplementBinding implementBinding) {
-        return new NettyAcceptance(transportConfig, implementBinding);
+    public Acceptance create(TransportConfig transportConfig, ImplementBinding implementBinding,
+            InetSocketAddress serviceAddress) {
+        return new NettyAcceptance(transportConfig, implementBinding, serviceAddress);
     }
 
     @Override

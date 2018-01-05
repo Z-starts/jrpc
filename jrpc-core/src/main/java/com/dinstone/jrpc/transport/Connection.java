@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.transport;
 
 import java.net.InetSocketAddress;
@@ -22,7 +21,7 @@ import com.dinstone.jrpc.protocol.Call;
 
 /**
  * connection abstract.
- * 
+ *
  * @author guojf
  * @version 1.0.0.2013-4-10
  */
@@ -30,7 +29,7 @@ public interface Connection {
 
     /**
      * asynchronous call.
-     * 
+     *
      * @param call
      * @return
      */

@@ -13,29 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.dinstone.jrpc.invoker;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 
-import com.dinstone.jrpc.proxy.ServiceProxy;
-
-/**
- * server-side service invoker.
- *
- * @author guojinfei
- * @version 1.0.0.2014-7-29
- */
-public class SkelectonServiceInvoker implements ServiceInvoker {
-
-    private InvocationHandler invocationHandler;
-
-    public SkelectonServiceInvoker() {
-        invocationHandler = new LocalInvocationHandler();
-    }
+public class LocalInvocationHandler implements InvocationHandler {
 
     @Override
-    public <T> Object invoke(ServiceProxy<T> serviceProxy, Method method, Object[] args) throws Throwable {
-        return invocationHandler.handle(new Invocation<>(serviceProxy, method, args));
+    public <T> Object handle(Invocation<T> invocation) throws Throwable {
+        try {
+            return invocation.getMethod().invoke(invocation.getInstance(), invocation.getParams());
+        } catch (InvocationTargetException e) {
+            throw e.getTargetException();
+        }
     }
 
 }

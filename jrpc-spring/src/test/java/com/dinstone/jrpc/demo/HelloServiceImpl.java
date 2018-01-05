@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,9 +23,10 @@ public class HelloServiceImpl implements HelloService {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see com.dinstone.jrpc.cases.HelloService#sayHello(java.lang.String)
      */
+    @Override
     public String sayHello(String name) {
         try {
             // System.out.println(name.length());
@@ -38,10 +39,10 @@ public class HelloServiceImpl implements HelloService {
 
     /**
      * {@inheritDoc}
-     * 
-     * @see com.dinstone.jrpc.cases.SuperInterface#sayHello(java.lang.String,
-     *      int)
+     *
+     * @see com.dinstone.jrpc.cases.SuperInterface#sayHello(java.lang.String, int)
      */
+    @Override
     public String sayHello(String name, int age) {
         if (age < 3) {
             return "hi, baby " + name;

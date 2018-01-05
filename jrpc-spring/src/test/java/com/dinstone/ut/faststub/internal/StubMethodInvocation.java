@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@ import com.dinstone.ut.faststub.MethodInvocation;
 
 /**
  * @author dinstone
- * 
  */
 class StubMethodInvocation implements MethodInvocation {
 
@@ -51,8 +50,8 @@ class StubMethodInvocation implements MethodInvocation {
 
     /**
      * {@inheritDoc}
-     * 
      */
+    @Override
     public Object invoke(Method method, Object[] args) throws Throwable {
         ApplicationContext stubContext = getStubContext(method);
         Object retObj = stubContext.getBean(method.getName());
@@ -84,7 +83,7 @@ class StubMethodInvocation implements MethodInvocation {
         StackTraceElement callTrace = findCaller();
         String testCase = callTrace.getMethodName();
         if (!testCase.equals(currentCase)) {
-            stubContextCachedMap = new HashMap<String, ApplicationContext>();
+            stubContextCachedMap = new HashMap<>();
             currentCase = testCase;
         }
 
@@ -115,7 +114,7 @@ class StubMethodInvocation implements MethodInvocation {
         }
 
         throw new RuntimeException(
-                "Test class name must be 'Test' as a suffix, the test method must start with 'test' prefix.");
+            "Test class name must be 'Test' as a suffix, the test method must start with 'test' prefix.");
     }
 
 }

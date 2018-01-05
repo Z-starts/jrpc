@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +15,18 @@
  */
 package com.dinstone.jrpc.transport.netty4;
 
-import io.netty.channel.Channel;
-import io.netty.util.AttributeKey;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.dinstone.jrpc.transport.ResultFuture;
 
+import io.netty.channel.Channel;
+import io.netty.util.AttributeKey;
+
 public class SessionUtil {
 
-    private static final AttributeKey<Object> RESULT_FUTURE_KEY = AttributeKey.valueOf(ConcurrentHashMap.class
-        .getName());
+    private static final AttributeKey<Object> RESULT_FUTURE_KEY = AttributeKey
+        .valueOf(ConcurrentHashMap.class.getName());
 
     @SuppressWarnings("unchecked")
     public static Map<Integer, ResultFuture> getResultFutureMap(Channel session) {

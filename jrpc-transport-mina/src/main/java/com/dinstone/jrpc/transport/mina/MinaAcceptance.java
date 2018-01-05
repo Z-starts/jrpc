@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.transport.mina;
 
 import java.net.InetSocketAddress;
@@ -54,11 +53,9 @@ public class MinaAcceptance extends AbstractAcceptance {
 
     private ExecutorService executorService;
 
-    private TransportConfig transportConfig;
-
-    public MinaAcceptance(TransportConfig transportConfig, ImplementBinding implementBinding) {
-        super(implementBinding);
-        this.transportConfig = transportConfig;
+    public MinaAcceptance(TransportConfig transportConfig, ImplementBinding implementBinding,
+            InetSocketAddress serviceAddress) {
+        super(transportConfig, implementBinding, serviceAddress);
     }
 
     @Override
@@ -95,7 +92,6 @@ public class MinaAcceptance extends AbstractAcceptance {
         // add business handler
         acceptor.setHandler(new MinaIoHandler());
 
-        InetSocketAddress serviceAddress = implementBinding.getServiceAddress();
         try {
             acceptor.bind(serviceAddress);
 
@@ -126,7 +122,7 @@ public class MinaAcceptance extends AbstractAcceptance {
             }
         }
 
-        LOG.info("mina acceptance unbind on {}", implementBinding.getServiceAddress());
+        LOG.info("mina acceptance unbind on {}", serviceAddress);
     }
 
     private class MinaIoHandler extends IoHandlerAdapter {
@@ -142,7 +138,8 @@ public class MinaAcceptance extends AbstractAcceptance {
             int currentConnectioncount = connectionMap.size();
             if (currentConnectioncount >= maxConnectionCount) {
                 session.close(true);
-                LOG.warn("connection count is too big: limit={},current={}", maxConnectionCount, currentConnectioncount);
+                LOG.warn("connection count is too big: limit={},current={}", maxConnectionCount,
+                    currentConnectioncount);
             } else {
                 String addressLabel = NetworkAddressUtil.addressLabel(session.getRemoteAddress(),
                     session.getLocalAddress());
@@ -176,7 +173,7 @@ public class MinaAcceptance extends AbstractAcceptance {
 
         /**
          * {@inheritDoc}
-         * 
+         *
          * @see org.apache.mina.core.service.IoHandlerAdapter#sessionClosed(org.apache.mina.core.session.IoSession)
          */
         @Override
@@ -203,14 +200,17 @@ public class MinaAcceptance extends AbstractAcceptance {
 
     private final class PassiveKeepAliveMessageFactory implements KeepAliveMessageFactory {
 
+        @Override
         public boolean isResponse(IoSession session, Object message) {
             return false;
         }
 
+        @Override
         public Object getRequest(IoSession session) {
             return null;
         }
 
+        @Override
         public boolean isRequest(IoSession session, Object message) {
             if (message instanceof Heartbeat) {
                 return true;
@@ -218,6 +218,7 @@ public class MinaAcceptance extends AbstractAcceptance {
             return false;
         }
 
+        @Override
         public Object getResponse(IoSession session, Object request) {
             Heartbeat heartbeat = (Heartbeat) request;
             heartbeat.getContent().increase();

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.spring.spi;
 
 import java.util.List;
@@ -29,9 +28,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.dinstone.jrpc.api.Server;
-import com.dinstone.jrpc.spring.factory.RegistryBean;
 import com.dinstone.jrpc.spring.factory.ServerFactoryBean;
-import com.dinstone.jrpc.spring.factory.TransportBean;
 
 public class ServerBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 
@@ -65,7 +62,7 @@ public class ServerBeanDefinitionParser extends AbstractSingleBeanDefinitionPars
     }
 
     private List<BeanDefinition> getServiceBeanDefinition(Element element, ParserContext parserContext) {
-        List<BeanDefinition> sblist = new ManagedList<BeanDefinition>();
+        List<BeanDefinition> sblist = new ManagedList<>();
 
         Element services = getChildElement(element, "services");
         if (services != null) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ package com.dinstone.jrpc;
 
 /**
  * RPC runtime exception.
- * 
+ *
  * @author guojf
  * @version 1.0.0.2013-10-28
  */
@@ -46,12 +46,17 @@ public class RpcException extends RuntimeException {
 
     /**
      * the code to get
-     * 
+     *
      * @return the code
      * @see RpcException#code
      */
     public int getCode() {
         return code;
+    }
+
+    @Override
+    public String getMessage() {
+        return code + "@" + super.getMessage();
     }
 
 }

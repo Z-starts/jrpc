@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.binding;
 
-import java.net.InetSocketAddress;
+import java.util.List;
 
-import com.dinstone.jrpc.endpoint.EndpointConfig;
 import com.dinstone.jrpc.proxy.ServiceProxy;
+import com.dinstone.jrpc.registry.ServiceDescription;
 
 /**
  * service reference binding
- * 
+ *
  * @author dinstone
  * @version 1.0.0
  */
@@ -34,9 +33,9 @@ public interface ReferenceBinding {
      * 
      * @param wrapper
      */
-    public <T> void bind(ServiceProxy<T> wrapper, EndpointConfig endpointConfig);
+    public <T> void bind(ServiceProxy<T> wrapper);
 
-    public <T> InetSocketAddress getServiceAddress(Class<T> serviceInterface, String group);
+    public List<ServiceDescription> lookup(String serviceName, String group);
 
     public void destroy();
 

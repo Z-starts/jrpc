@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.protocol;
 
 import com.dinstone.jrpc.demo.DemoService;
@@ -27,8 +26,8 @@ public class MessageCodecTest {
     }
 
     protected static void test(SerializeType st) throws Exception {
-        Request request = new Request(12345, st, new Call(DemoService.class.getName(), "", 3000, "hello", new Object[] {
-                "guojinfei", 34 }, new Class<?>[] { String.class, int.class }));
+        Request request = new Request(12345, st, new Call(DemoService.class.getName(), "", 3000, "hello",
+            new Object[] { "guojinfei", 34 }, new Class<?>[] { String.class, int.class }));
         long start = System.currentTimeMillis();
         for (int i = 0; i < 1000000; i++) {
             byte[] pd = MessageCodec.encodeMessage(request);

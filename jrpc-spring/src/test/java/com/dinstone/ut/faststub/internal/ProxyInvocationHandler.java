@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@ import com.dinstone.ut.faststub.MethodInterceptor;
 
 /**
  * @author dinstone
- * 
  */
 class ProxyInvocationHandler implements InvocationHandler {
 
@@ -50,10 +49,10 @@ class ProxyInvocationHandler implements InvocationHandler {
 
     /**
      * {@inheritDoc}
-     * 
-     * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object,
-     *      java.lang.reflect.Method, java.lang.Object[])
+     *
+     * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
      */
+    @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         LOG.debug("the interceptor[{}] will be inoked", interceptor.getClass());
         return interceptor.invoke(methodInvocation, method, args);

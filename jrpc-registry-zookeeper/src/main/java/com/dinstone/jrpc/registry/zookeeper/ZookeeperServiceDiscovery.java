@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.registry.zookeeper;
 
 import java.io.IOException;
@@ -118,10 +117,10 @@ public class ZookeeperServiceDiscovery implements com.dinstone.jrpc.registry.Ser
 
     @Override
     public void cancel(ServiceDescription description) {
-        ServiceCache serviceCache = serviceCacheMap.get(description.getServiceName());
+        ServiceCache serviceCache = serviceCacheMap.get(description.getName());
         if (serviceCache != null) {
             serviceCache.destroy();
-            serviceCacheMap.remove(description.getServiceName());
+            serviceCacheMap.remove(description.getName());
         }
     }
 
@@ -138,12 +137,12 @@ public class ZookeeperServiceDiscovery implements com.dinstone.jrpc.registry.Ser
         ServiceCache serviceCache = null;
 
         synchronized (serviceCacheMap) {
-            serviceCache = serviceCacheMap.get(description.getServiceName());
+            serviceCache = serviceCacheMap.get(description.getName());
             if (serviceCache == null) {
-                String providerPath = pathForProviders(description.getServiceName());
+                String providerPath = pathForProviders(description.getName());
                 ThreadFactory threadFactory = ThreadUtils.newThreadFactory("ServiceDiscovery");
                 serviceCache = new ServiceCache(client, providerPath, threadFactory).build();
-                serviceCacheMap.put(description.getServiceName(), serviceCache);
+                serviceCacheMap.put(description.getName(), serviceCache);
             }
         }
 
@@ -173,9 +172,9 @@ public class ZookeeperServiceDiscovery implements com.dinstone.jrpc.registry.Ser
 
     public class ServiceCache implements PathChildrenCacheListener {
 
-        private final ConcurrentHashMap<String, ServiceDescription> providers = new ConcurrentHashMap<String, ServiceDescription>();
+        private final ConcurrentHashMap<String, ServiceDescription> providers = new ConcurrentHashMap<>();
 
-        private final ConcurrentHashMap<String, ServiceDescription> consumers = new ConcurrentHashMap<String, ServiceDescription>();
+        private final ConcurrentHashMap<String, ServiceDescription> consumers = new ConcurrentHashMap<>();
 
         private PathChildrenCache cache;
 
@@ -185,7 +184,7 @@ public class ZookeeperServiceDiscovery implements com.dinstone.jrpc.registry.Ser
         }
 
         public List<ServiceDescription> getProviders() {
-            ArrayList<ServiceDescription> pl = new ArrayList<ServiceDescription>(providers.size());
+            ArrayList<ServiceDescription> pl = new ArrayList<>(providers.size());
             pl.addAll(providers.values());
             return pl;
         }
@@ -207,7 +206,7 @@ public class ZookeeperServiceDiscovery implements com.dinstone.jrpc.registry.Ser
                 }
 
                 byte[] bytes = serializer.serialize(service);
-                String path = pathForConsumer(service.getServiceName(), service.getId());
+                String path = pathForConsumer(service.getName(), service.getId());
 
                 final int MAX_TRIES = 2;
                 boolean isDone = false;
@@ -257,7 +256,7 @@ public class ZookeeperServiceDiscovery implements com.dinstone.jrpc.registry.Ser
         public void destroy() {
             if (connectionState == ConnectionState.CONNECTED) {
                 for (ServiceDescription consumer : consumers.values()) {
-                    String path = pathForConsumer(consumer.getServiceName(), consumer.getId());
+                    String path = pathForConsumer(consumer.getName(), consumer.getId());
                     try {
                         client.delete().forPath(path);
                     } catch (Exception e) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import java.io.IOException;
 import com.dinstone.jrpc.api.Server;
 import com.dinstone.jrpc.api.ServerBuilder;
 import com.dinstone.jrpc.benchmark.BenchmarkService;
+import com.dinstone.jrpc.transport.TransportConfig;
 
 public class JrpcBenchmarkServer {
 
@@ -28,9 +29,9 @@ public class JrpcBenchmarkServer {
         System.out.println("Usage:[TransportSchema]");
         System.out.println("Usage:[TransportSchema] [NioProcessorCount] [BusinessProcessorCount]");
 
-        String transportSchema = "netty";
         int businessCount = 0;
         int nioCount = Runtime.getRuntime().availableProcessors();
+        String transportSchema = "netty";
         if (args.length == 1) {
             transportSchema = args[0];
         } else if (args.length == 3) {
@@ -42,14 +43,17 @@ public class JrpcBenchmarkServer {
         System.out.println("NioProcessorCount=" + nioCount + ",BusinessProcessorCount=" + businessCount
                 + ",TransportSchema=" + transportSchema);
 
+        TransportConfig transportConfig = new TransportConfig();
+        transportConfig.setSchema(transportSchema).setNioProcessorCount(nioCount);
+        transportConfig.setBusinessProcessorCount(businessCount);
+
         ServerBuilder builder = new ServerBuilder().bind("localhost", 4444);
-        builder.transportConfig().setSchema(transportSchema).setNioProcessorCount(nioCount)
-            .setBusinessProcessorCount(businessCount);
-        Server server = builder.build().start();
+        Server server = builder.transportConfig(transportConfig).build().start();
 
         MetricService metricService = new MetricService();
         server.exportService(BenchmarkService.class, new BenchmarkServiceImpl(metricService));
 
+        System.out.println("please press any key to continue");
         System.in.read();
 
         server.stop();

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.transport.mina;
 
 import java.io.Serializable;
@@ -28,7 +27,7 @@ import com.dinstone.jrpc.protocol.MessageCodec;
 
 /**
  * Transport Protocol Decoder.
- * 
+ *
  * @author guojinfei
  * @version 1.0.0.2014-6-19
  */
@@ -42,7 +41,7 @@ public class TransportProtocolDecoder extends CumulativeProtocolDecoder {
 
     /**
      * the maxObjectSize to get
-     * 
+     *
      * @return the maxObjectSize
      * @see TransportProtocolEncoder#maxObjectSize
      */
@@ -52,7 +51,7 @@ public class TransportProtocolDecoder extends CumulativeProtocolDecoder {
 
     /**
      * the maxObjectSize to set
-     * 
+     *
      * @param maxObjectSize
      * @see TransportProtocolEncoder#maxObjectSize
      */

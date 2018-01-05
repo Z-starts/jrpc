@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.transport.mina;
 
 import java.net.InetSocketAddress;
@@ -53,6 +52,7 @@ public class MinaConnector {
             this.serializeType = serializeType;
         }
 
+        @Override
         public boolean isResponse(IoSession session, Object message) {
             if (message instanceof Heartbeat) {
                 return true;
@@ -60,14 +60,17 @@ public class MinaConnector {
             return false;
         }
 
+        @Override
         public Object getRequest(IoSession session) {
             return new Heartbeat(0, serializeType, new Tick());
         }
 
+        @Override
         public boolean isRequest(IoSession session, Object message) {
             return false;
         }
 
+        @Override
         public Object getResponse(IoSession session, Object request) {
             // HeartbeatPing ping = (HeartbeatPing) request;
             // return new HeartbeatPong(ping.getMessageId(), ping.getSerializeType(), new Pong());

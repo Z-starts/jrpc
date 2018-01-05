@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014~2016 dinstone<dinstone@163.com>
+ * Copyright (C) 2014~2017 dinstone<dinstone@163.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.dinstone.jrpc.example;
 
 import java.util.concurrent.TimeUnit;
@@ -22,6 +21,7 @@ import com.codahale.metrics.Counter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.ScheduledReporter;
 import com.codahale.metrics.Slf4jReporter;
+import com.codahale.metrics.Timer;
 
 public class MetricService {
 
@@ -38,6 +38,10 @@ public class MetricService {
 
     public Counter getCounter(String name) {
         return metricRegistry.counter(name);
+    }
+
+    public Timer getTimer(String name) {
+        return metricRegistry.timer(name);
     }
 
     public void destory() {
